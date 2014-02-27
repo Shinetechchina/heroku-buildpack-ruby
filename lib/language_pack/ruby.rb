@@ -83,7 +83,7 @@ class LanguagePack::Ruby < LanguagePack::Base
     if sa_core_git_path.to_s.size > 0
       instrument "ruby.pull_sa_core_gems" do
         puts "pull SeniorAdvisor to #{build_path}/vendor/gems"
-        `rm -rf '#{build_path}/vendor/gems/*'`
+        `rm -rf '#{build_path}/vendor/'`
          puts  `git clone '#{sa_core_git_path}' '#{build_path}/vendor/gems'`
          puts `ls #{build_path}/vendor/gems`
       end
