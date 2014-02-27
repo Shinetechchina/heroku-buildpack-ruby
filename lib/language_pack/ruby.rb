@@ -77,6 +77,14 @@ class LanguagePack::Ruby < LanguagePack::Base
     end
   end
 
+  def pull_sa_core_gems
+    instrument "ruby.pull_sa_core_gems" do
+      puts "pull SeniorAdvisor to #{build_path}/vendor/gems"
+      `rm -rf '#{build_path}/vendor/gems/*'`
+      `git clone https://7477b1c0b42c12e95ec78f62c0717c150e068ea0:x-oauth-basic@github.com/SeniorAdvisor/SeniorAdvisorAPI.git '#{build_path}/vendor/gems'`
+    end
+  end
+
   def compile
     instrument 'ruby.compile' do
       # check for new app at the beginning of the compile
@@ -88,6 +96,7 @@ class LanguagePack::Ruby < LanguagePack::Base
       setup_language_pack_environment
       setup_profiled
       allow_git do
+        pull_sa_core_gems
         install_bundler_in_app
         build_bundler
         create_database_yml
