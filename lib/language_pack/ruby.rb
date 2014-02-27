@@ -85,6 +85,9 @@ class LanguagePack::Ruby < LanguagePack::Base
         puts "pull SeniorAdvisor to #{build_path}/vendor/gems"
         `rm -rf '#{build_path}/vendor/'`
          puts  `git clone '#{sa_core_git_path}' '#{build_path}/vendor/gems'`
+        `rm -rf '#{build_path}/vendor/gems/.git'`
+        `rm -rf '#{build_path}/vendor/gems/Gemfile'`
+        `rm -rf '#{build_path}/vendor/gems/Gemfile.lock'`
          puts `ls #{build_path}/vendor/gems`
       end
     end
