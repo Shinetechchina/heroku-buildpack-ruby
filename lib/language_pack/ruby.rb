@@ -78,7 +78,7 @@ class LanguagePack::Ruby < LanguagePack::Base
   end
 
   def pull_sa_core_gems
-    sa_core_git_path =  ENV['SA_CORE_GIT_PATH']
+    sa_core_git_path =  env('SA_CORE_GIT_PATH')
     puts "SA CORE GIT PATH: #{sa_core_git_path}"
     if sa_core_git_path.to_s.size > 0
       instrument "ruby.pull_sa_core_gems" do
