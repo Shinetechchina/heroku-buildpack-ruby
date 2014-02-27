@@ -78,10 +78,14 @@ class LanguagePack::Ruby < LanguagePack::Base
   end
 
   def pull_sa_core_gems
-    instrument "ruby.pull_sa_core_gems" do
-      puts "pull SeniorAdvisor to #{build_path}/vendor/gems"
+    sa_core_git_path =  ENV['SA_CORE_GIT_PATH']
+    puts "SA CORE GIT PATH: #{sa_core_git_path}"
+    if sa_core_git_path.to_s.size > 0
+      instrument "ruby.pull_sa_core_gems" do
+        puts "pull SeniorAdvisor to #{build_path}/vendor/gems"
       `rm -rf '#{build_path}/vendor/gems/*'`
-      `git clone https://7477b1c0b42c12e95ec78f62c0717c150e068ea0:x-oauth-basic@github.com/SeniorAdvisor/SeniorAdvisorAPI.git '#{build_path}/vendor/gems'`
+      `git clone '#{sa_core_git_path}' '#{build_path}/vendor/gems'`
+      end
     end
   end
 
