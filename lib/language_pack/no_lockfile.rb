@@ -9,8 +9,8 @@ class LanguagePack::NoLockfile < LanguagePack::Base
     !File.exists?("Gemfile.lock")
   end
 
-  def choose_app
-    site_root =  env('WEBSITE_ROOT')
+  def self.choose_app
+    site_root =  ENV['WEBSITE_ROOT'] || LanguagePack::ShellHelpers.user_env_hash['WEBSITE_ROOT']
     site_root_path = "#{build_path}/#{site_root}"
     if site_root.to_s.size > 0 && File.exists?(site_root_path)
       puts "Choose #{site_root} ..."
