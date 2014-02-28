@@ -77,16 +77,6 @@ class LanguagePack::Ruby < LanguagePack::Base
     end
   end
 
-  def choose_app
-    site_root =  env('WEBSITE_ROOT')
-    site_root_path = "#{build_path}/#{site_root}"
-    if site_root.to_s.size > 0 && File.exists?(site_root_path)
-      puts "Choose #{site_root} ..."
-      `mv #{site_root_path}/* #{build_path}`
-    else
-      raise StandardError, "Please set heroku config 'WEBSITE_ROOT' or WEBSITE_ROOT is error"
-    end
-  end
     #sa_core_git_path =  env('SA_CORE_GIT_PATH')
     #puts "SA CORE GIT PATH: #{sa_core_git_path}"
     #if sa_core_git_path.to_s.size > 0
@@ -113,7 +103,6 @@ class LanguagePack::Ruby < LanguagePack::Base
       setup_language_pack_environment
       setup_profiled
       allow_git do
-        choose_app
         install_bundler_in_app
         build_bundler
         create_database_yml
