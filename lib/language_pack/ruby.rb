@@ -77,22 +77,30 @@ class LanguagePack::Ruby < LanguagePack::Base
     end
   end
 
-  def pull_sa_core_gems
-    sa_core_git_path =  env('SA_CORE_GIT_PATH')
-    puts "SA CORE GIT PATH: #{sa_core_git_path}"
-    if sa_core_git_path.to_s.size > 0
-      instrument "ruby.pull_sa_core_gems" do
-        sa_core_path = "#{build_path}/sa_core"
-        puts "pull SeniorAdvisor to #{sa_core_path}"
-        `rm -rf '#{sa_core_path}'`
-         puts  `git clone '#{sa_core_git_path}' '#{sa_core_path}'`
-        `rm -rf '#{sa_core_path}/.git'`
-        `rm -rf '#{sa_core_path}/Gemfile'`
-        `rm -rf '#{sa_core_path}/Gemfile.lock'`
-        `rm -rf '#{sa_core_path}/Rakefile'`
-      end
+  def choose_app
+    site_root =  env('WEBSITE_ROOT')
+    site_root_path = "#{build_path}/#{site_root}"
+    if site_root.to_s.size > 0 && File.exists?(site_root_path)
+      puts "Choose #{site_root} ..."
+      `mv #{site_root_path}/* #{build_path}`
+    else
+      raise StandardError, "Please set heroku config 'WEBSITE_ROOT' or WEBSITE_ROOT is error"
     end
   end
+    #sa_core_git_path =  env('SA_CORE_GIT_PATH')
+    #puts "SA CORE GIT PATH: #{sa_core_git_path}"
+    #if sa_core_git_path.to_s.size > 0
+      #instrument "ruby.pull_sa_core_gems" do
+        #sa_core_path = "#{build_path}/sa_core"
+        #puts "pull SeniorAdvisor to #{sa_core_path}"
+        #`rm -rf '#{sa_core_path}'`
+         #puts  `git clone '#{sa_core_git_path}' '#{sa_core_path}'`
+        #`rm -rf '#{sa_core_path}/.git'`
+        #`rm -rf '#{sa_core_path}/Gemfile'`
+        #`rm -rf '#{sa_core_path}/Gemfile.lock'`
+        #`rm -rf '#{sa_core_path}/Rakefile'`
+      #end
+    #end
 
   def compile
     instrument 'ruby.compile' do
@@ -105,7 +113,7 @@ class LanguagePack::Ruby < LanguagePack::Base
       setup_language_pack_environment
       setup_profiled
       allow_git do
-        pull_sa_core_gems
+        choose_app
         install_bundler_in_app
         build_bundler
         create_database_yml
