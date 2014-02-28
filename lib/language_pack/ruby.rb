@@ -82,13 +82,14 @@ class LanguagePack::Ruby < LanguagePack::Base
     puts "SA CORE GIT PATH: #{sa_core_git_path}"
     if sa_core_git_path.to_s.size > 0
       instrument "ruby.pull_sa_core_gems" do
-        puts "pull SeniorAdvisor to #{build_path}/vendor/gems"
-        `rm -rf '#{build_path}/vendor/'`
-         puts  `git clone '#{sa_core_git_path}' '#{build_path}/vendor/gems'`
-        `rm -rf '#{build_path}/vendor/gems/.git'`
-        `rm -rf '#{build_path}/vendor/gems/Gemfile'`
-        `rm -rf '#{build_path}/vendor/gems/Gemfile.lock'`
-         puts `ls #{build_path}/vendor/gems`
+        sa_core_path = "#{build_path}/sa_core"
+        puts "pull SeniorAdvisor to #{sa_core_path}"
+        `rm -rf '#{sa_core_path}'`
+         puts  `git clone '#{sa_core_git_path}' '#{sa_core_path}'`
+        `rm -rf '#{sa_core_path}/.git'`
+        `rm -rf '#{sa_core_path}/Gemfile'`
+        `rm -rf '#{sa_core_path}/Gemfile.lock'`
+        `rm -rf '#{sa_core_path}/Rakefile'`
       end
     end
   end
