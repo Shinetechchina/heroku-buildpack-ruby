@@ -15,6 +15,7 @@ class LanguagePack::NoLockfile < LanguagePack::Base
     site_root_path = "#{build_path}/#{site_root}"
     if site_root.to_s.size > 0 && File.exists?(site_root_path)
       puts "Choose #{site_root} ..."
+      `rm #{site_root_path}/modules`
       `mv #{site_root_path}/* #{build_path}`
     else
       raise StandardError, "Please set heroku config 'WEBSITE_ROOT' or WEBSITE_ROOT is error"
